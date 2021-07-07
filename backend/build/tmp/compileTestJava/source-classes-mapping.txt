@@ -1,0 +1,2 @@
+com/bluesoft/bluebank/tproof/TproofApplicationTests.java
+ com.bluesoft.bluebank.tproof.TproofApplicationTests
