@@ -8,34 +8,35 @@ import javax.persistence.Table;
 @Table(name = "account")
 public class Account {
     @Id
-    private int number;
+    private long account;
     private String name;
     private double money;
 
-    public Account(){
+    public Account() {
 
     }
-    public Account(int account, String name, double money){
+
+    public Account(long account, String name, double money) {
         super();
-        this.number=account;
-        this.name=name;
-        this.money=money;
+        this.account = account;
+        this.name = name;
+        this.money = money;
     }
 
     public double getMoney() {
         return money;
     }
 
-    public int getAccount() {
-        return number;
+    public long getAccount() {
+        return account;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setAccount(int account) {
-        this.number = account;
+    public void setAccount(long account) {
+        this.account = account;
     }
 
     public void setMoney(double money) {

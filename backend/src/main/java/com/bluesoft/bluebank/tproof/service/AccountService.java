@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountService implements AccountRepository{
+public class AccountService implements AccountRepository {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -40,7 +40,7 @@ public class AccountService implements AccountRepository{
 
     @Override
     public long count() {
-        return 0;
+        return accountRepository.count();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class AccountService implements AccountRepository{
 
     @Override
     public boolean existsById(Long aLong) {
-        return false;
+        return accountRepository.existsById(aLong);
     }
 
     @Override
@@ -156,5 +156,9 @@ public class AccountService implements AccountRepository{
     @Override
     public <S extends Account> boolean exists(Example<S> example) {
         return false;
+    }
+
+    public Optional<Account> getOne(long aLong) {
+        return accountRepository.findById(aLong);
     }
 }

@@ -9,6 +9,7 @@ import com.bluesoft.bluebank.tproof.service.AccountService;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/account")
@@ -22,6 +23,17 @@ public class AccountREST {
         return ResponseEntity.ok(accountService.findAll());
     }
 
+    @RequestMapping("/getOne")
+    @ResponseBody
+    private Optional<Account> getOne(long id) {
+        return accountService.getOne(id);
+    }
+
+    @GetMapping("/count")
+    private ResponseEntity<Long> count() {
+        return ResponseEntity.ok(accountService.count());
+    }
+
     @PostMapping
     private ResponseEntity<Account> saveAccount(@RequestBody Account account) {
         try {
@@ -30,6 +42,15 @@ public class AccountREST {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
 
+    @PutMapping
+    private ResponseEntity<Account> updateAccount(@RequestBody Account account) {
+        try {
+            Account a = accountService.save(account);
+            return ResponseEntity.created(new URI("/account/" + a.getAccount())).body(a);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
