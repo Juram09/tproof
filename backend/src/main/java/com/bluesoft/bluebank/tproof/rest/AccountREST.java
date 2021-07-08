@@ -44,7 +44,7 @@ public class AccountREST {
         }
     }
 
-    @PutMapping
+    @PutMapping("/update")
     private ResponseEntity<Account> updateAccount(@RequestBody Account account) {
         try {
             Account a = accountService.save(account);

@@ -1,52 +1,187 @@
-<div style="padding-left: 20%;padding-right: 20%; padding-top: 15%;">
-  <form [formGroup]="accountForm"(ngSubmit)="save()">
-    <div class="form-group">
-      <label>Nombre</label>
-      <input type="text" formControlName="name" class="form-control">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+    />
+  </symbol>
+</svg>
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Crear cuenta">
+    <div style="padding-left: 20%; padding-right: 20%; padding-top: 5%">
+      <div
+        *ngIf="alertCreate"
+        class="alert alert-success alert-dismissible"
+        role="alert"
+      >
+        <strong>¡Cuenta creada!</strong> La cuenta de {{ name }} se creó con el
+        numero {{ number }} y un valor inicial de $
+        {{ money }}
+        <button
+          (click)="closeAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Valor inicial de la cuenta </label>
-      <input type="text" formControlName="money" class="form-control">
+    <div style="padding-left: 20%; padding-right: 20%; padding-top: 10%">
+      <form [formGroup]="accountForm" (ngSubmit)="save()">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" formControlName="name" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Valor inicial de la cuenta($)</label>
+          <input type="number" formControlName="money" class="form-control" />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="accountForm.invalid"
+          (click)="closeAlert()"
+        >
+          Crear
+        </button>
+      </form>
+    </div></mat-tab
+  >
+  <mat-tab label="Consignar"
+    ><div style="padding-left: 20%; padding-right: 20%; padding-top: 5%">
+      <div
+        *ngIf="alertConsign"
+        class="alert alert-success alert-dismissible"
+        role="alert"
+      >
+        <strong>¡Consignación realizada!</strong> Se realizó una consignación de
+        ${{ money }} a la cuenta numero {{ number }}
+        <button
+          (click)="closeAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="accountForm.invalid">Crear</button>
-  </form>
-</div>
-
-<div style="padding-left: 20%;padding-right: 20%; padding-top: 15%;">
-  <form [formGroup]="consignForm"(ngSubmit)="consign()">
-    <div class="form-group">
-      <label>Numero de cuenta</label>
-      <input type="text" formControlName="account" class="form-control">
+    <div style="padding-left: 20%; padding-right: 20%; padding-top: 10%">
+      <form [formGroup]="consignForm" (ngSubmit)="consign()">
+        <div class="form-group">
+          <label>Numero de cuenta</label>
+          <input type="text" formControlName="account" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Valor a consignar($)</label>
+          <input type="number" formControlName="money" class="form-control" />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="consignForm.invalid"
+          (click)="closeAlert()"
+        >
+          Consignar
+        </button>
+      </form>
+    </div></mat-tab
+  >
+  <mat-tab label="Retirar"
+    ><div
+      *ngIf="alertRetire"
+      style="padding-left: 20%; padding-right: 20%; padding-top: 5%"
+    >
+      <div
+        *ngIf="alertRetire"
+        class="alert alert-success alert-dismissible"
+        role="alert"
+      >
+        <strong>¡Dinero retirado!</strong> Se han retirado ${{ money }} de la
+        cuenta numero {{ number }}
+        <button
+          (click)="closeAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Valor a consignar </label>
-      <input type="text" formControlName="money" class="form-control">
+    <div
+      *ngIf="badRetire"
+      style="padding-left: 20%; padding-right: 20%; padding-top: 5%"
+    >
+      <div
+        *ngIf="badRetire"
+        class="alert alert-danger alert-dismissible"
+        role="alert"
+      >
+        <strong>¡Error!</strong> La cuenta numero {{ number }} solo dispone de
+        ${{ money }} para retirar
+        <button
+          (click)="closeAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="consignForm.invalid">Consignar</button>
-  </form>
-</div>
-
-<div style="padding-left: 20%;padding-right: 20%; padding-top: 15%;">
-  <form [formGroup]="retireForm"(ngSubmit)="retire()">
-    <div class="form-group">
-      <label>Numero de cuenta</label>
-      <input type="text" formControlName="account" class="form-control">
+    <div style="padding-left: 20%; padding-right: 20%; padding-top: 10%">
+      <form [formGroup]="retireForm" (ngSubmit)="retire()">
+        <div class="form-group">
+          <label>Numero de cuenta</label>
+          <input type="text" formControlName="account" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Valor a retirar($)</label>
+          <input type="number" formControlName="money" class="form-control" />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="retireForm.invalid"
+        >
+          Retirar
+        </button>
+      </form>
     </div>
-    <div class="form-group">
-      <label>Valor a retirar </label>
-      <input type="text" formControlName="money" class="form-control">
+  </mat-tab>
+  <mat-tab label="Ver saldo"
+    ><div style="padding-left: 20%; padding-right: 20%; padding-top: 15%">
+      <form [formGroup]="searchForm" (ngSubmit)="search()">
+        <div class="form-group">
+          <label>Numero de cuenta</label>
+          <input type="text" formControlName="account" class="form-control" />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="searchForm.invalid"
+          (click)="closeAlert()"
+        >
+          Buscar
+        </button>
+      </form>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="retireForm.invalid">Retirar</button>
-  </form>
-</div>
-
-<div style="padding-left: 20%;padding-right: 20%; padding-top: 15%;">
-  <form [formGroup]="searchForm"(ngSubmit)="search()">
-    <div class="form-group">
-      <label>Numero de cuenta</label>
-      <input type="text" formControlName="account" class="form-control">
+    <div
+      *ngIf="alertSearch"
+      style="padding-left: 20%; padding-right: 20%; padding-top: 5%"
+    >
+      <div
+        *ngIf="alertSearch"
+        class="alert alert-success alert-dismissible"
+        role="alert"
+      >
+        <strong>¡Saldo encontrado!</strong> La cuenta numero {{ number }} a
+        nombre de {{ name }} tiene un saldo de ${{ money }}
+        <button
+          (click)="closeAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="searchForm.invalid">Buscar</button>
-  </form>
-</div>
-  
+  </mat-tab>
+</mat-tab-group>

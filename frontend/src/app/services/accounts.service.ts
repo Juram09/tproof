@@ -21,19 +21,23 @@ export class AccountsService {
 
   public saveAccount(number: any, account: any): Observable<any> {
     account.account = number;
-    account.name = account.name;
-    account.money = account.money;
     return this.httpClient.post(this.API_SERVER, account);
   }
 
-  public consignAccount(account: any, money: any): Observable<any> {
+  public consignAccount(
+    account: any,
+    number: any,
+    money: any
+  ): Observable<any> {
     account.money = account.money + Number(money);
-    return this.httpClient.put(this.API_SERVER, account);
+    account.account = number;
+    return this.httpClient.put(this.API_SERVER.concat('/update'), account);
   }
 
-  public retireAccount(account: any, money: any): Observable<any> {
+  public retireAccount(account: any, number: any, money: any): Observable<any> {
     account.money = account.money - Number(money);
-    return this.httpClient.put(this.API_SERVER, account);
+    account.account = number;
+    return this.httpClient.put(this.API_SERVER.concat('/update'), account);
   }
 
   public countAccounts(): Observable<any> {
