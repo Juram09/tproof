@@ -6,7 +6,7 @@
   </symbol>
 </svg>
 <mat-tab-group mat-align-tabs="center">
-  <mat-tab label="Crear cuenta">
+  <mat-tab label="Crear cuenta" click="closeAlert()">
     <div style="padding-left: 20%; padding-right: 20%; padding-top: 5%">
       <div
         *ngIf="alertCreate"
@@ -46,8 +46,23 @@
       </form>
     </div></mat-tab
   >
-  <mat-tab label="Consignar"
-    ><div style="padding-left: 20%; padding-right: 20%; padding-top: 5%">
+  <mat-tab label="Consignar" click="closeAlert()">
+    <div
+      *ngIf="badConsign"
+      style="padding-left: 20%; padding-right: 20%; padding-top: 5%"
+    >
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <strong>¡Error!</strong> {{ this.error }}
+        <button
+          (click)="closeAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+    </div>
+    <div style="padding-left: 20%; padding-right: 20%; padding-top: 5%">
       <div
         *ngIf="alertConsign"
         class="alert alert-success alert-dismissible"
@@ -85,7 +100,7 @@
       </form>
     </div></mat-tab
   >
-  <mat-tab label="Retirar"
+  <mat-tab label="Retirar" click="closeAlert()"
     ><div
       *ngIf="alertRetire"
       style="padding-left: 20%; padding-right: 20%; padding-top: 5%"
@@ -115,8 +130,7 @@
         class="alert alert-danger alert-dismissible"
         role="alert"
       >
-        <strong>¡Error!</strong> La cuenta numero {{ number }} solo dispone de
-        ${{ money }} para retirar
+        <strong>¡Error!</strong> {{ this.error }}
         <button
           (click)="closeAlert()"
           type="button"
@@ -146,7 +160,7 @@
       </form>
     </div>
   </mat-tab>
-  <mat-tab label="Ver saldo"
+  <mat-tab label="Ver saldo" click="closeAlert()"
     ><div style="padding-left: 20%; padding-right: 20%; padding-top: 15%">
       <form [formGroup]="searchForm" (ngSubmit)="search()">
         <div class="form-group">
@@ -162,6 +176,21 @@
           Buscar
         </button>
       </form>
+    </div>
+    <div
+      *ngIf="badSearch"
+      style="padding-left: 20%; padding-right: 20%; padding-top: 5%"
+    >
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <strong>¡Error!</strong> {{ this.error }}
+        <button
+          (click)="closeAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
     <div
       *ngIf="alertSearch"

@@ -12,9 +12,11 @@ import { ComponentFactoryResolver } from '@angular/core';
 export class AppComponent implements OnInit {
   alertCreate: boolean = false;
   alertConsign: boolean = false;
+  badConsign: boolean = false;
   alertRetire: boolean = false;
   badRetire: boolean = false;
   alertSearch: boolean = false;
+  badSearch: boolean = false;
   accountForm!: FormGroup;
   consignForm!: FormGroup;
   retireForm!: FormGroup;
@@ -24,6 +26,8 @@ export class AppComponent implements OnInit {
   number: any;
   name: any;
   money: any;
+  title: any = 'Bluebank';
+  error: any;
 
   constructor(
     public fb: FormBuilder,
@@ -86,78 +90,113 @@ export class AppComponent implements OnInit {
   }
 
   consign(): void {
-    this.number = this.consignForm.value.account;
-    this.accountsService.getOneAccount(this.number).subscribe(
-      (response) => {
-        this.money = this.consignForm.value.money;
-        this.accountsService
-          .consignAccount(response, this.number, this.money)
-          .subscribe(
-            (response) => {
-              this.alertConsign = true;
-              this.consignForm.reset();
-              this.accounts.push(response);
-            },
-            (error) => {
-              console.error(error);
-            }
-          );
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this.number = this.searchForm.value.account;
+    if (isNaN(this.number)) {
+      this.error = 'La cuenta no es valida';
+      this.badConsign = true;
+    } else {
+      this.accountsService.getOneAccount(this.number).subscribe(
+        (response) => {
+          this.money = this.consignForm.value.money;
+          if (this.money < 1) {
+            this.error = 'No se pueden realizar consignaciones de menos de $1';
+            this.badConsign = true;
+          } else {
+            this.accountsService
+              .consignAccount(response, this.number, this.money)
+              .subscribe(
+                (response) => {
+                  this.alertConsign = true;
+                  this.consignForm.reset();
+                  this.accounts.push(response);
+                },
+                (error) => {
+                  this.error = 'Error al realizar la consignación';
+                  this.badConsign = true;
+                }
+              );
+          }
+        },
+        (error) => {
+          this.error =
+            'El numero de cuenta no se encuentra registrado en la base de datos';
+          this.badConsign = true;
+        }
+      );
+    }
   }
 
   retire(): void {
-    this.number = this.retireForm.value.account;
-    this.accountsService.getOneAccount(this.number).subscribe(
-      (response) => {
-        this.money = this.retireForm.value.money;
-        if (response.money < this.money) {
-          this.money = response.money;
-          this.badRetire = true;
-        } else {
-          this.accountsService
-            .retireAccount(response, this.number, this.money)
-            .subscribe(
-              (response) => {
-                this.alertRetire = true;
-                this.retireForm.reset();
-                this.accounts.push(response);
-              },
-              (error) => {
-                console.error(error);
-              }
-            );
+    this.number = this.searchForm.value.account;
+    if (isNaN(this.number)) {
+      this.error = 'La cuenta no es valida';
+      this.badRetire = true;
+    } else {
+      this.accountsService.getOneAccount(this.number).subscribe(
+        (response) => {
+          this.money = this.retireForm.value.money;
+          if (response.money < this.money) {
+            this.error =
+              'La cuenta numero ' +
+              this.number +
+              ' solo dispone de ' +
+              response.money +
+              ' para retirar';
+            this.badRetire = true;
+          } else {
+            this.accountsService
+              .retireAccount(response, this.number, this.money)
+              .subscribe(
+                (response) => {
+                  this.alertRetire = true;
+                  this.retireForm.reset();
+                  this.accounts.push(response);
+                },
+                (error) => {
+                  this.error = 'Error al realizar el retiro';
+                  this.badRetire = true;
+                }
+              );
+          }
+        },
+        (error) => {
+          this.error =
+            'El numero de cuenta no se encuentra registrado en la base de datos';
+          this.badConsign = true;
         }
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+      );
+    }
   }
 
   search(): void {
     this.number = this.searchForm.value.account;
-    this.accountsService.getOneAccount(this.number).subscribe(
-      (response) => {
-        this.alertSearch = true;
-        this.name = response.name;
-        this.money = response.money;
-        console.log(response.money);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    if (isNaN(this.number)) {
+      this.error = 'La cuenta no es valida';
+      this.badSearch = true;
+    } else {
+      this.accountsService.getOneAccount(this.number).subscribe(
+        (response) => {
+          console.log(response);
+          this.name = response.name;
+          this.money = response.money;
+          this.alertSearch = true;
+        },
+        (error) => {
+          this.error =
+            'El numero de cuenta no se encuentra registrado en la base de datos';
+          this.badSearch = true;
+        }
+      );
+    }
   }
 
   closeAlert() {
     this.alertCreate = false;
     this.alertConsign = false;
+    this.badConsign = false;
     this.alertRetire = false;
-    this.alertSearch = false;
     this.badRetire = false;
+    this.alertSearch = false;
+    this.badSearch = false;
   }
 }

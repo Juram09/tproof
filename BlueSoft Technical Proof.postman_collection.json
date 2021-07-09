@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "9878dd5a-9244-463f-b5b0-32fc7a265a70",
+		"name": "BlueSoft Technical Proof",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "postAccount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"account\": 75028602000000013,\r\n    \"name\": \"Juan Ramirez\",\r\n    \"money\": 1000000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account"
+					]
+				},
+				"description": "Guarda una cuenta en la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "getAllAccounts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"account\": 75028602000000012,\r\n    \"name\": \"Juan Ramirez\",\r\n    \"money\": 1000000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account"
+					]
+				},
+				"description": "Obtiene todas las cuentas de la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "getOneAccount",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/getOne?id=75028602000000013",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"getOne"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "75028602000000013"
+						}
+					]
+				},
+				"description": "Obtiene una cuenta de la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "putAccount",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"account\": 75028602000000013,\r\n    \"name\": \"Juan Ramirez\",\r\n    \"money\": 900000\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"update"
+					]
+				},
+				"description": "Actualiza una cuenta en la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "getcount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"count"
+					]
+				},
+				"description": "Obtiene el numero de cuentas que hay en la base de datos"
+			},
+			"response": []
+		}
+	]
+}

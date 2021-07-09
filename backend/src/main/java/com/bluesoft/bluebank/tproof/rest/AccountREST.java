@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.bluesoft.bluebank.tproof.service.AccountService;
 
+import java.lang.Exception;
+import io.sentry.Sentry;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,7 @@ public class AccountREST {
             Account a = accountService.save(account);
             return ResponseEntity.created(new URI("/account/" + a.getAccount())).body(a);
         } catch (Exception e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
@@ -50,7 +53,17 @@ public class AccountREST {
             Account a = accountService.save(account);
             return ResponseEntity.created(new URI("/account/" + a.getAccount())).body(a);
         } catch (Exception e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping("/error")
+    public void triggerException() {
+        try {
+            throw new Exception("This is a test.");
+        } catch (Exception e) {
+            Sentry.captureException(e);
         }
     }
 }

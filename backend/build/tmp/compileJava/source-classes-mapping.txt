@@ -1,5 +1,6 @@
 com/bluesoft/bluebank/tproof/TproofApplication.java
  com.bluesoft.bluebank.tproof.TproofApplication
+ com.bluesoft.bluebank.tproof.TproofApplication$1
 com/bluesoft/bluebank/tproof/rest/AccountREST.java
  com.bluesoft.bluebank.tproof.rest.AccountREST
 com/bluesoft/bluebank/tproof/repository/AccountRepository.java
