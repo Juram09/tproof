@@ -1,7 +1,7 @@
 
 # BlueSoft prueba tecnica
 
-Reade.me de la prueba tecnica propuesta por BlueSoft Technology
+Readme.md de la prueba tecnica propuesta por BlueSoft Technology
 
 
 
